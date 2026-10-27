@@ -27,30 +27,10 @@ app.config.update(SESSION_COOKIE_HTTPONLY=True, SESSION_COOKIE_SAMESITE="Lax", S
 app.permanent_session_lifetime = timedelta(days=30)
 
 
-@app.before_request
-def beta_access_gate():
-    # Permite recursos estáticos para mostrar la pantalla de acceso.
-    if request.endpoint in ("static", "beta_gate"):
-        return None
-    if session.get("beta_autorizado"):
-        return None
-    return redirect("/prueba-privada")
 
 
-@app.route("/prueba-privada", methods=["GET", "POST"])
-def beta_gate():
-    beta_password = os.environ.get("BETA_PASSWORD")
-    if not beta_password:
-        return "Acceso beta bloqueado: el administrador debe configurar BETA_PASSWORD en el hosting.", 503
-    error = None
-    if request.method == "POST":
-        entered = request.form.get("password", "")
-        if entered and __import__("hmac").compare_digest(entered, beta_password):
-            session["beta_autorizado"] = True
-            session.permanent = True
-            return redirect("/")
-        error = "Contraseña incorrecta. Inténtalo nuevamente."
-    return render_template("beta_gate.html", error=error)
+
+
 
 
 def sb():
