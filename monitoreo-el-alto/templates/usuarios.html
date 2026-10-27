@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block titulo %}Usuarios · El Alto Limpio{% endblock %}
+
+{% block barra %}
+<div class="titulo-barra"><h1>Usuarios</h1><p>Vecinos registrados y quiénes administran el sistema.</p></div>
+{% endblock %}
+{% block boton_nuevo %}{% endblock %}
+
+{% block contenido %}
+<div class="pagina">
+  <div id="msg-u" hidden></div>
+  <div class="tabla-wrap">
+    <table class="tabla">
+      <thead><tr><th>Nombre</th><th>Rol</th><th>Registro</th><th>Reportes</th><th>Acciones</th></tr></thead>
+      <tbody id="filas"><tr><td colspan="5" class="vacio">Cargando usuarios...</td></tr></tbody>
+    </table>
+  </div>
+  <p class="mu centro" id="total"></p>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/usuarios.js"></script>
+{% endblock %}

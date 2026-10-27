@@ -1,0 +1,17 @@
+MONITOREO EL ALTO — PREPARADO PARA RENDER (BETA PRIVADA)
+
+Este proyecto usa Python/Flask, no Laravel.
+Se retiraron .env y "contraseña de bdd supabase.txt" del ZIP.
+Variables obligatorias en Render > Environment:
+SUPABASE_URL
+SUPABASE_KEY
+SUPABASE_SERVICE_KEY
+FLASK_SECRET
+BETA_PASSWORD
+
+Usa la clave pública/anon de Supabase en SUPABASE_KEY y una service_role/secret solo en SUPABASE_SERVICE_KEY. Nunca publiques la service_role. Genera FLASK_SECRET aleatoria y una BETA_PASSWORD larga y única.
+Si alguna clave real fue publicada públicamente, rótala en Supabase antes de desplegar.
+Build Command: pip install -r requirements.txt
+Start Command: gunicorn app:app
+Selecciona el plan Free para pruebas. Render puede suspender el servicio tras 15 minutos sin visitas; el primer acceso posterior puede tardar cerca de un minuto.
+El repositorio GitHub debe ser privado. La URL Render es pública, pero esta versión incluye una pantalla de contraseña beta para restringir el acceso.

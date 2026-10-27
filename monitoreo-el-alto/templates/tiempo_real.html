@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block titulo %}Mapa en tiempo real · El Alto Limpio{% endblock %}
+{% block head %}<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">{% endblock %}
+
+{% block barra %}
+<div class="rt-titulo"><i></i><span>Nuevos reportes en tiempo real</span></div>
+<div style="flex:1"></div>
+{% endblock %}
+
+{% block contenido %}
+<div class="mapa-wrap">
+  <div id="mapa"></div>
+  <div class="rt" id="rt" hidden><i></i><span id="rt-txt"></span></div>
+  <div class="ley-flot">
+    <h4>Leyenda</h4>
+    <div id="ley"></div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="/static/tiempo_real.js"></script>
+{% endblock %}

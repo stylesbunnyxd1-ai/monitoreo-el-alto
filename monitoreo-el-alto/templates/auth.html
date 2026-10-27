@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Acceso · EcoAlto</title>
+<link rel="stylesheet" href="/static/style.css"></head>
+<body class="auth">
+<section class="auth-brand">
+  <div class="logo big">🌿 EcoAlto</div>
+  <h2>Cuida tu ciudad, reporta lo que ves</h2>
+  <p>Registra focos de contaminación en El Alto, confírmalos con tus vecinos y sigue su solución en tiempo real.</p>
+  <a href="/" class="ghost">Ver el mapa sin cuenta</a>
+</section>
+<section class="auth-form">
+  <h1 id="titulo">{{ 'Crea tu cuenta' if modo=='registro' else 'Inicia sesión' }}</h1>
+  {% if msg %}<p class="msg">{{ msg }}</p>{% endif %}
+  <form method="post">
+    <input type="hidden" name="modo" id="modo" value="{{ modo }}">
+    <input name="nombre" id="nombre" placeholder="Nombre o apodo (no uses datos personales)" {% if modo!='registro' %}style="display:none"{% endif %}>
+    <input name="email" type="email" placeholder="Correo electrónico" required>
+    <input name="password" type="password" placeholder="Contraseña (mínimo 6 caracteres)" minlength="6" required>
+    <button class="btn" id="enviar">{{ 'Crear cuenta' if modo=='registro' else 'Iniciar sesión' }}</button>
+  </form>
+  <p class="alt"><span id="txt">{{ '¿Ya tienes cuenta?' if modo=='registro' else '¿Aún no tienes cuenta?' }}</span>
+    <a href="#" id="cambiar">{{ 'Inicia sesión' if modo=='registro' else 'Regístrate' }}</a></p>
+</section>
+<script>
+let reg = {{ 'true' if modo=='registro' else 'false' }};
+document.getElementById('cambiar').onclick = e => {
+  e.preventDefault(); reg = !reg;
+  document.getElementById('modo').value = reg ? 'registro' : 'login';
+  document.getElementById('nombre').style.display = reg ? '' : 'none';
+  document.getElementById('titulo').textContent = reg ? 'Crea tu cuenta' : 'Inicia sesión';
+  document.getElementById('enviar').textContent = reg ? 'Crear cuenta' : 'Iniciar sesión';
+  document.getElementById('txt').textContent = reg ? '¿Ya tienes cuenta?' : '¿Aún no tienes cuenta?';
+  e.target.textContent = reg ? 'Inicia sesión' : 'Regístrate';
+};
+</script></body></html>

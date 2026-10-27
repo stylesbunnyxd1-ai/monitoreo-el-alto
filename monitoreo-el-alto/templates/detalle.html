@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% from "_iconos.html" import ico %}
+{% block titulo %}Detalle del reporte #{{ rid }} · El Alto Limpio{% endblock %}
+{% block head %}<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">{% endblock %}
+
+{% block barra %}
+<div class="titulo-barra"><h1>Detalle del reporte #{{ rid }}</h1></div>
+<span class="badge" id="badge" hidden></span>
+{% endblock %}
+
+{% block contenido %}
+<div class="pagina">
+  <p class="mu" id="carga">Cargando reporte...</p>
+
+  <div id="cuerpo" hidden>
+    <div class="det-grid">
+      <div class="med" id="principal"></div>
+
+      <div class="info">
+        <div class="dato"><span>Tipo de contaminación</span><div class="v" id="d-tipo"></div></div>
+        <div class="dato"><span>Zona</span><div class="v" id="d-zona"></div></div>
+        <div class="dato"><span>Descripción</span><div class="v desc" id="d-desc"></div></div>
+        <div class="fila-dos">
+          <div class="info">
+            <div class="dato"><span>Gravedad</span><div class="v" id="d-grav"></div></div>
+            <div class="dato"><span>Fecha y hora</span><div class="v" id="d-fecha"></div></div>
+            <div class="dato"><span>Ubicación</span><div class="v" id="d-ubi"></div></div>
+          </div>
+          <div class="mini-det">
+            <div id="mapa-det"></div>
+            <a id="ver-mapa" href="/">Ver en el mapa</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3>Confirmaciones comunitarias</h3>
+    <div class="conf"><span class="conf-ico">{{ ico('users') }}</span><span id="d-conf"></span></div>
+
+    <h3>Evidencias</h3>
+    <div class="evid" id="evid"></div>
+        <div id="extra"></div>
+
+    <p id="acc-nota" class="mu"></p>
+    <div id="acc-msg" hidden></div>
+    <div class="acciones">
+      <button class="btn-azul" id="b-conf" type="button">Confirmar</button>
+      <button class="btn-rojo" id="b-err" type="button">Reportar error</button>
+    </div>
+  </div>
+</div>
+
+<!-- Ventana: reportar error -->
+<div class="modal" id="m-error" hidden>
+  <div class="modal-caja chica">
+    <h2>Reportar un error</h2>
+    <p class="mu">Tu aviso ayuda al administrador a revisar este reporte. No se publica.</p>
+    <label for="e-tipo">¿Qué problema tiene?</label>
+    <select id="e-tipo">
+      <option value="">Selecciona una opción</option>
+      <option value="falso">Parece falso o inventado</option>
+      <option value="duplicado">Ya existe un reporte igual</option>
+      <option value="ubicacion">La ubicación es incorrecta</option>
+      <option value="otro">Otro motivo</option>
+    </select>
+    <label for="e-det">Detalle (opcional)</label>
+    <textarea id="e-det" maxlength="300" placeholder="Cuéntanos qué viste..."></textarea>
+    <p class="msg-e" id="e-msg" hidden></p>
+    <div class="modal-bot">
+      <button class="btn-s" id="e-cancel" type="button">Cancelar</button>
+      <button class="btn-v" id="e-enviar" type="button">Enviar aviso</button>
+    </div>
+  </div>
+</div>
+
+<!-- Ventana: confirmar reporte (pantalla 7) -->
+<div class="modal" id="m-conf" hidden>
+  <div class="modal-caja chica">
+    <div class="m-cab">
+      <h2>Confirmar reporte</h2>
+      <button class="cerrar" id="c-x" type="button" aria-label="Cerrar">×</button>
+    </div>
+    <p class="preg">¿Quieres confirmar este reporte?</p>
+    <p class="mu">Tu confirmación ayudará a que el administrador lo revise y le dé seguimiento.</p>
+
+    <div class="resumen">
+      <div class="res-img" id="c-img"></div>
+      <div class="res-txt">
+        <b id="c-titulo"></b>
+        <span id="c-zona"></span>
+        <span id="c-fecha"></span>
+      </div>
+    </div>
+
+    <p class="preg">¿Ya confirmaste este reporte?</p>
+    <div class="alerta-roja"><i>!</i><span id="c-alerta-txt">Solo puedes confirmar una vez por reporte.</span></div>
+    <p class="msg-e" id="c-err" hidden></p>
+
+    <div class="m-bot2">
+      <button class="btn-verde" id="c-ok" type="button">Confirmar</button>
+      <button class="btn-borde" id="c-cancel" type="button">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
+
+{% block scripts %}
+<script>const RID = {{ rid }};</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="/static/detalle.js"></script>
+<script src="/static/detalle_extra.js"></script>
+{% endblock %}

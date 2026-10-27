@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% from "_iconos.html" import ico %}
+{% block titulo %}{{ titulo }} · El Alto Limpio{% endblock %}
+
+{% block barra %}
+<div class="titulo-barra"><h1>{{ titulo }}</h1><p>{{ subtitulo }}</p></div>
+{% endblock %}
+
+{% block contenido %}
+<div class="pagina">
+  <div class="busq">
+    {{ ico('search') }}
+    <input id="q" type="search" placeholder="Buscar reportes..." autocomplete="off">
+  </div>
+
+  <div class="filtros-fila">
+    <div><label for="f-tipo">Tipo</label><select id="f-tipo"><option value="">Todos</option></select></div>
+    <div><label for="f-zona">Zona</label><select id="f-zona"><option value="">Todas</option></select></div>
+    <div><label for="f-estado">Estado</label><select id="f-estado"><option value="">Todos</option></select></div>
+    <div><label for="f-fecha">Fecha</label>
+      <select id="f-fecha">
+        <option value="">Todas</option><option value="hoy">Hoy</option>
+        <option value="7">Últimos 7 días</option><option value="30">Últimos 30 días</option>
+      </select>
+    </div>
+    <button class="btn-v" id="aplicar" type="button">Aplicar filtros</button>
+  </div>
+
+  <div class="tabla-wrap">
+    <table class="tabla">
+      <thead><tr><th>ID</th><th>Tipo</th><th>Zona</th><th>Gravedad</th><th>Estado</th><th>Fecha</th><th>Acciones</th></tr></thead>
+      <tbody id="filas"><tr><td colspan="7" class="vacio">Cargando reportes...</td></tr></tbody>
+    </table>
+  </div>
+  <div class="pag" id="pag"></div>
+  <p class="mu centro" id="total"></p>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>const MIOS = {{ 'true' if mios else 'false' }};</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="/static/lista.js"></script>
+{% endblock %}

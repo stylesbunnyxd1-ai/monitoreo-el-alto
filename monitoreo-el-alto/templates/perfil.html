@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block titulo %}Mi perfil · El Alto Limpio{% endblock %}
+
+{% block barra %}
+<div class="titulo-barra"><h1>Mi perfil</h1></div>
+{% endblock %}
+
+{% block contenido %}
+<div class="pagina">
+  <div class="perfil-card">
+    <div class="p-cab">
+      <div class="p-av">
+        <svg viewBox="0 0 96 96" width="96" height="96" aria-hidden="true">
+          <rect width="96" height="96" fill="#e8ebec"/>
+          <circle cx="48" cy="36" r="17" fill="#3a4650"/>
+          <path d="M14 96c0-21 15-34 34-34s34 13 34 34z" fill="#3a4650"/>
+        </svg>
+      </div>
+      <div>
+        <h2 id="t-nombre">Cargando...</h2>
+        <p class="p-mail" id="t-correo"></p>
+        <span class="p-rol" id="t-rol"></span>
+      </div>
+    </div>
+
+    <div id="p-msg" hidden></div>
+
+    <label for="i-nombre">Nombre completo</label>
+    <input id="i-nombre" readonly maxlength="60">
+    <label for="i-correo">Correo electrónico</label>
+    <input id="i-correo" readonly>
+    <label for="i-fecha">Fecha de registro</label>
+    <input id="i-fecha" readonly>
+
+    <h3>Mis estadísticas</h3>
+    <div class="p-stats">
+      <div class="p-stat"><small>Reportes creados</small><b id="s-creados">-</b></div>
+      <div class="p-stat"><small>Confirmaciones realizadas</small><b id="s-conf">-</b></div>
+      <div class="p-stat"><small>Reportes en seguimiento</small><b id="s-seg">-</b></div>
+    </div>
+
+    <div class="p-bot">
+      <button class="btn-borde" id="editar" type="button">Editar perfil</button>
+      <button class="btn-verde" id="guardar" type="button" hidden>Guardar cambios</button>
+      <button class="btn-borde" id="cancelar" type="button" hidden>Cancelar</button>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/perfil.js"></script>
+{% endblock %}

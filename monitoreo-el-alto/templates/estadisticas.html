@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% from "_iconos.html" import ico %}
+{% block titulo %}Estadísticas · El Alto Limpio{% endblock %}
+{% block head %}<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">{% endblock %}
+
+{% block barra %}
+<div class="titulo-barra"><h1>Estadísticas y reportes</h1><p>Resumen de los reportes registrados en El Alto.</p></div>
+{% endblock %}
+
+{% block contenido %}
+<div class="pagina">
+  <div class="kpis">
+    <div class="kpi"><span class="k-ico az">{{ ico('doc') }}</span><div><small>Total de reportes</small><b id="k-total">-</b></div></div>
+    <div class="kpi"><span class="k-ico ve">{{ ico('check') }}</span><div><small>Confirmados</small><b id="k-conf">-</b></div></div>
+    <div class="kpi"><span class="k-ico na">{{ ico('bell') }}</span><div><small>En atención</small><b id="k-aten">-</b></div></div>
+    <div class="kpi"><span class="k-ico mo">{{ ico('chart') }}</span><div><small>Solucionados</small><b id="k-sol">-</b></div></div>
+  </div>
+
+  <div class="st-grid">
+    <div class="caja">
+      <h3>Reportes por tipo de contaminación</h3>
+      <div class="barras" id="barras"></div>
+    </div>
+
+    <div class="caja">
+      <h3>Estado de los reportes</h3>
+      <div class="dona-wrap">
+        <svg id="dona" viewBox="0 0 120 120" width="170" height="170" role="img" aria-label="Gráfico de estados"></svg>
+        <div class="dl" id="dona-ley"></div>
+      </div>
+    </div>
+
+    <div class="caja">
+      <h3>Zonas con mayor concentración</h3>
+      <div id="mapa-z"></div>
+      <div class="z-pie">
+        <div>
+          <span><i style="background:#e53935"></i>Alta</span>
+          <span><i style="background:#f5a623"></i>Media</span>
+          <span><i style="background:#2e9e4f"></i>Baja</span>
+        </div>
+        <a href="/">Ver mapa completo</a>
+      </div>
+    </div>
+
+    <div class="caja">
+      <h3>Tipos más frecuentes</h3>
+      <div id="top"></div>
+    </div>
+  </div>
+
+  <div class="caja hall">
+    <h3>Hallazgos de los datos</h3>
+    <ul id="hall"></ul>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="/static/estadisticas.js"></script>
+{% endblock %}

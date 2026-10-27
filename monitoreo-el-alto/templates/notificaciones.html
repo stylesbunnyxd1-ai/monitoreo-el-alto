@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% from "_iconos.html" import ico %}
+{% block titulo %}Notificaciones · El Alto Limpio{% endblock %}
+
+{% block barra %}
+<div class="titulo-barra notif-tit">{{ ico('bell') }}<h1>Notificaciones</h1><span class="badge" id="n-badge" hidden></span></div>
+{% endblock %}
+
+{% block contenido %}
+<div class="pagina">
+  <div class="notif-lista" id="lista"><p class="notif-vacia">Cargando...</p></div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="/static/notificaciones.js"></script>
+{% endblock %}

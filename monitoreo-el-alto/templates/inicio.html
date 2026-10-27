@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% from "_iconos.html" import ico %}
+{% block titulo %}Inicio · El Alto Limpio{% endblock %}
+{% block head %}<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">{% endblock %}
+
+{% block barra %}
+<div class="buscar">
+  <input id="buscar" type="search" placeholder="Buscar por zona, tipo o palabra clave..." autocomplete="off">
+  {{ ico('search') }}
+</div>
+{% endblock %}
+
+{% block boton_nuevo %}<button class="btn-v" id="btn-nuevo" type="button">+ Nuevo reporte</button>{% endblock %}
+
+{% block contenido %}
+<div class="mapa-wrap">
+  <div id="mapa"></div>
+  <div class="rt" id="rt" hidden><i></i><span id="rt-txt"></span></div>
+  <div class="filtros">
+    <h2>Filtros</h2>
+    <label for="f-tipo">Tipo de contaminación</label>
+    <select id="f-tipo"><option value="">Todos</option></select>
+    <label for="f-zona">Zona</label>
+    <select id="f-zona"><option value="">Todas</option></select>
+    <label for="f-estado">Estado</label>
+    <select id="f-estado"><option value="">Todos</option></select>
+    <label for="f-grav">Gravedad</label>
+    <select id="f-grav"><option value="">Todas</option><option value="baja">Baja</option><option value="media">Media</option><option value="alta">Alta</option></select>
+    <button class="btn-v ancho" id="aplicar">Aplicar filtros</button>
+  </div>
+    <!-- Panel lateral: nuevo reporte -->
+  {% if cfg.user %}
+  <aside class="drawer" id="drawer" hidden aria-label="Nuevo reporte">
+    <div class="dr-cab">
+      <div><h2>Nuevo reporte</h2><p>Completa los datos y marca el punto en el mapa.</p></div>
+      <button class="cerrar" id="dr-x" type="button" aria-label="Cerrar">×</button>
+    </div>
+    <div class="dr-cuerpo">
+      <div id="dr-aviso" hidden></div>
+
+      <label for="n-tipo">Tipo de contaminación</label>
+      <select id="n-tipo"><option value="">Selecciona un tipo</option></select>
+
+      <label for="n-zona">Zona o barrio</label>
+      <input type="text" id="n-zona" list="lista-zonas" maxlength="60" autocomplete="off" placeholder="Se sugiere al marcar el mapa; también puedes escribirla">
+      <datalist id="lista-zonas"></datalist>
+      <small class="nota" id="n-zona-nota" hidden></small>
+
+      <span class="etq">Nivel de gravedad <b class="req">*</b></span>
+      <div class="radios">
+        <label><input type="radio" name="n-grav" value="baja"> Bajo</label>
+        <label><input type="radio" name="n-grav" value="media"> Medio</label>
+        <label><input type="radio" name="n-grav" value="alta"> Alto</label>
+      </div>
+
+      <label for="n-desc">Descripción</label>
+      <textarea id="n-desc" maxlength="500" placeholder="Describe lo que observaste..."></textarea>
+      <div class="cuenta"><span id="n-cuenta">0</span>/500</div>
+
+      <span class="etq">Ubicación en el mapa</span>
+      <div class="dr-ubi" id="n-ubi">Haz clic en el mapa para marcar el punto.</div>
+      <button type="button" class="btn-s" id="n-gps">Usar mi ubicación</button>
+
+      <span class="etq">Evidencia (foto o video)</span>
+      <div class="drop" id="n-drop">
+        <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#0b3d2e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M4 16v4h16v-4"/></svg>
+        <div><span>Selecciona un archivo o arrastra aquí</span><small>JPG, PNG, MP4 (máx. 10 MB)</small></div>
+      </div>
+      <input type="file" id="n-archivo" accept="image/jpeg,image/png,video/mp4" multiple hidden>
+      <div class="arch" id="n-arch"></div>
+      <small class="nota">Hasta 5 archivos. Sin personas identificables, rostros ni placas de vehículos.</small>
+    </div>
+    <div class="dr-pie">
+      <button type="button" class="btn-s" id="dr-cancelar">Cancelar</button>
+      <button type="button" class="btn-v" id="n-guardar">Guardar reporte</button>
+    </div>
+  </aside>
+  {% endif %}
+</div>
+<div class="leyenda" id="leyenda"></div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="/static/inicio.js"></script>
+{% endblock %}

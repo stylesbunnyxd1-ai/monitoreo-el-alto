@@ -1,0 +1,68 @@
+:root{--v1:#0b3f2f;--on:#17794a;--tx:#0b3d2e;--mu:#5f7b8a;--bd:#d9e4e0}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body.acceso{margin:0;min-height:100vh;display:grid;grid-template-columns:44% 56%;font-family:Roboto,system-ui,sans-serif;color:var(--tx);background:#eef3f1}
+
+/* Lado izquierdo: foto y lema */
+.foto{display:flex;flex-direction:column;justify-content:flex-end;padding:56px 48px;color:#fff;
+  background:linear-gradient(180deg,#0000 35%,#06281dcc 100%),url(/static/img/el-alto.jpg) center/cover no-repeat,linear-gradient(160deg,#2f6f9a,#0b3f2f)}
+.foto h2{margin:0 0 10px;font-size:34px;line-height:1.2;font-weight:700}
+.foto p{margin:0;font-size:18px}
+
+/* Lado derecho: tarjeta */
+.lado{display:grid;place-items:center;padding:32px}
+.tarjeta{width:100%;max-width:460px;background:#fff;border-radius:14px;padding:36px 34px;box-shadow:0 8px 30px #0b3f2f1f}
+.tarjeta h1{margin:0 0 8px;font-size:24px;color:var(--tx)}
+.tarjeta .sub{margin:0 0 22px;color:var(--mu);line-height:1.45;font-size:15px}
+.tarjeta label{display:block;font-size:14px;font-weight:500;margin:16px 0 7px}
+.campo{position:relative}
+.tarjeta input{width:100%;height:46px;border:1px solid var(--bd);border-radius:8px;padding:0 44px 0 14px;font:inherit;font-size:14px;color:var(--tx);background:#fff}
+.tarjeta input::placeholder{color:#9db0b5}
+.tarjeta input:focus{outline:2px solid #17794a55;border-color:var(--on)}
+.ojo{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:0;color:#4b6460;cursor:pointer;padding:4px;display:grid}
+.btn-reg{width:100%;height:48px;margin-top:24px;border:0;border-radius:8px;background:var(--on);color:#fff;font:inherit;font-size:16px;font-weight:500;cursor:pointer}
+.btn-reg:hover{background:#12623b}
+.alt{text-align:center;margin:20px 0 0;font-size:14px}
+.alt a{color:var(--on);font-weight:700;text-decoration:none}
+.error{background:#fdeaea;border:1px solid #f0b4b4;color:#b3261e;border-radius:8px;padding:10px 12px;font-size:14px;margin-bottom:6px}
+.ok{background:#e3f4ea;border:1px solid #a9d9bd;color:#14673e;border-radius:8px;padding:10px 12px;font-size:14px;margin-bottom:6px}
+
+@media(max-width:850px){
+  body.acceso{grid-template-columns:1fr}
+  .foto{min-height:220px;padding:28px}.foto h2{font-size:26px}
+}
+
+/* Pantalla de inicio de sesión */
+.foto.oscura{align-items:flex-start;
+  background:linear-gradient(180deg,#0000 30%,#0b3f2fcc 62%,#082e23 100%),url(/static/img/el-alto.jpg) center/cover no-repeat,linear-gradient(160deg,#2f6f9a,#0b3f2f)}
+.foto .logo-f{display:flex;align-items:center;gap:12px;margin-bottom:24px}
+.foto .logo-f b{display:block;font-size:24px}
+.foto .logo-f small{color:#9af2d0;font-size:13px}
+.foto.oscura p{font-size:16px;margin-bottom:28px}
+.fila{display:flex;justify-content:space-between;align-items:center;margin-top:16px}
+.fila label{display:flex;align-items:center;gap:8px;margin:0;font-weight:400;font-size:14px;cursor:pointer}
+.fila input[type=checkbox]{width:18px;height:18px;padding:0;accent-color:var(--on)}
+.fila a{color:var(--on);text-decoration:none;font-size:13px}
+.btn-reg.oscuro{background:#0d5c46}
+.btn-reg.oscuro:hover{background:#0a4a38}
+
+
+/* Enlace para volver al mapa */
+.volver{display:inline-flex;align-items:center;gap:6px;margin-bottom:18px;color:var(--mu);font-size:14px;font-weight:500;text-decoration:none}
+.volver:hover{color:var(--on)}
+.volver svg{flex:none}
+
+
+/* ===== Tema final: pantallas de acceso ===== */
+:root{--v1:#0b2a4a;--on:#0d9488;--tx:#0f2538;--mu:#64748b;--bd:#e2e8f0}
+body.acceso{background:linear-gradient(135deg,#eef4fa,#e2ecf5)}
+.foto{background:linear-gradient(180deg,#0000 30%,#0b2545e6 100%),linear-gradient(120deg,#0d948833,#0b254555),url(/static/img/el-alto.jpg) center/cover no-repeat,linear-gradient(160deg,#2f6f9a,#0b2545)}
+.foto.oscura{background:linear-gradient(180deg,#0000 28%,#0b2545d9 62%,#0a1d36 100%),linear-gradient(120deg,#0d948833,#0b254555),url(/static/img/el-alto.jpg) center/cover no-repeat,linear-gradient(160deg,#2f6f9a,#0b2545)}
+.foto .logo-f small{color:#8ff0d2}
+.lado{background:radial-gradient(900px 520px at 85% 0%,#d5eef0 0%,#0000 62%)}
+.tarjeta{border:1px solid #ffffffcc;box-shadow:0 20px 50px #0b254526}
+.tarjeta input:focus{outline:2px solid #0d948855}
+.btn-reg{background:linear-gradient(135deg,#0e7490,#0d9488 60%,#10b981);box-shadow:0 8px 20px #0d948844;transition:filter .15s,transform .15s}
+.btn-reg:hover{background:linear-gradient(135deg,#0e7490,#0d9488 60%,#10b981);filter:brightness(1.08);transform:translateY(-1px)}
+.btn-reg.oscuro{background:linear-gradient(135deg,#0b2a4a,#0e7490);box-shadow:0 8px 20px #0b2a4a44}
+.btn-reg.oscuro:hover{background:linear-gradient(135deg,#0b2a4a,#0e7490);filter:brightness(1.12)}
