@@ -8,6 +8,7 @@ const ICONOS = {
   nuevo:       '<path d="M6 3h9l4 4v14H6z"/><path d="M9 12h7M9 16h7M9 8h3"/>',
   confirmado:  '<path d="M4 12l5 5L20 6"/>',
   estado:      '<path d="M6 16v-5a6 6 0 0 1 12 0v5l2 2H4z"/><path d="M10 21h4"/>',
+    comentario:  '<path d="M4 5h16v11H10l-6 4z"/>',
   comunitaria: '<circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.5 3-6 7-6s7 2.5 7 6"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14c2.5.6 4 2.6 4 6"/>',
 };
 
@@ -44,7 +45,7 @@ async function cargar() {
 
 function realtime() {
   const rt = supabase.createClient(CFG.url, CFG.key);
-  ['reportes_ambientales', 'seguimientos', 'confirmaciones'].forEach(t =>
+  ['reportes_ambientales', 'seguimientos', 'confirmaciones', 'comentarios'].forEach(t =>
     rt.channel('notif-' + t).on('postgres_changes', {event: '*', schema: 'public', table: t}, cargar).subscribe());
 }
 cargar(); realtime();

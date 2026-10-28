@@ -40,6 +40,20 @@
     <h3>Evidencias</h3>
     <div class="evid" id="evid"></div>
         <div id="extra"></div>
+            <h3>Comentarios de la comunidad <span class="n-coms" id="n-coms"></span></h3>
+    <div class="coms">
+      <p class="mu" id="com-login" hidden><a href="/acceso">Inicia sesión</a> para comentar.</p>
+      <form class="f-com" id="f-com" hidden>
+        <div class="resp-a" id="resp-a" hidden><span id="resp-txt"></span><button type="button" id="resp-x">Cancelar respuesta</button></div>
+        <textarea id="com-texto" maxlength="500" placeholder="Escribe un comentario útil y respetuoso..."></textarea>
+        <div class="f-com-pie">
+          <small class="mu"><span id="com-cuenta">0</span>/500 · Sin datos personales de terceros</small>
+          <button class="btn-v" id="com-enviar" type="submit">Publicar comentario</button>
+        </div>
+      </form>
+      <div id="com-msg" hidden></div>
+      <div id="lista-com"><p class="mu">Cargando comentarios...</p></div>
+    </div>
 
     <p id="acc-nota" class="mu"></p>
     <div id="acc-msg" hidden></div>
@@ -112,4 +126,5 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script src="/static/detalle.js"></script>
 <script src="/static/detalle_extra.js"></script>
+<script src="/static/comentarios.js"></script>
 {% endblock %}

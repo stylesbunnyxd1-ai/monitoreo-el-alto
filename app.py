@@ -436,6 +436,96 @@ def cambiar_rol(uid):
     except Exception as e:
         return jsonify(error=f"No se pudo cambiar el rol: {e}"), 400
 
+# ---------- Comentarios de la comunidad ----------
+_com_recientes = collections.defaultdict(list)
+
+
+def _puede_comentar(uid):
+    """Máximo 5 comentarios por minuto y por persona (evita spam)."""
+    ahora = time.time()
+    lista = [t for t in _com_recientes[uid] if ahora - t < 60]
+    ok = len(lista) < 5
+    if ok:
+        lista.append(ahora)
+    _com_recientes[uid] = lista
+    return ok
+
+
+def _primer_nombre(perfil):
+    partes = ((perfil or {}).get("nombre") or "").split()
+    return partes[0] if partes else "Vecino"
+
+
+@app.get("/api/reportes/<int:rid>/comentarios")
+def listar_comentarios(rid):
+    """Comentarios de un reporte. Solo se muestra el primer nombre de cada autor (privacidad).
+    La base de datos (RLS) esconde los comentarios ocultos a quien no es su autor ni administrador."""
+    filas = (sb().table("comentarios").select("id,usuario_id,padre_id,texto,oculto,created_at")
+             .eq("reporte_id", rid).order("created_at").execute().data)
+    perfiles = {}
+    ids = list({f["usuario_id"] for f in filas})
+    if ids:  # la tabla profiles es privada, por eso los nombres se leen con la clave de servicio
+        for p in (create_client(URL, SERVICE_KEY).table("profiles")
+                  .select("id,nombre,rol").in_("id", ids).execute().data):
+            perfiles[p["id"]] = p
+    uid = session.get("uid")
+    return jsonify([{
+        "id": f["id"], "padre_id": f["padre_id"], "texto": f["texto"], "oculto": f["oculto"],
+        "created_at": f["created_at"], "mio": f["usuario_id"] == uid,
+        "autor": _primer_nombre(perfiles.get(f["usuario_id"])),
+        "es_admin": (perfiles.get(f["usuario_id"]) or {}).get("rol") == "admin",
+    } for f in filas])
+
+
+@app.post("/api/reportes/<int:rid>/comentarios")
+@login_required
+def comentar(rid):
+    d = request.json or {}
+    texto = re.sub(r"[ \t]+", " ", str(d.get("texto") or "")).strip()
+    if not 2 <= len(texto) <= 500:
+        return jsonify(error="El comentario debe tener entre 2 y 500 caracteres"), 400
+    c = sb()
+    if not c.table("reportes_ambientales").select("id").eq("id", rid).execute().data:
+        return jsonify(error="Reporte no encontrado"), 404
+    padre = None
+    if d.get("padre_id"):
+        try:
+            padre = int(d["padre_id"])
+        except (TypeError, ValueError):
+            return jsonify(error="Respuesta no válida"), 400
+        p = c.table("comentarios").select("reporte_id,padre_id").eq("id", padre).execute().data
+        if not p or p[0]["reporte_id"] != rid or p[0]["padre_id"]:  # solo se responde a comentarios principales
+            return jsonify(error="No se puede responder a ese comentario"), 400
+    if not _puede_comentar(session["uid"]):
+        return jsonify(error="Estás comentando muy rápido. Espera un momento."), 429
+    try:
+        r = c.table("comentarios").insert({"reporte_id": rid, "usuario_id": session["uid"],
+                                           "padre_id": padre, "texto": texto}).execute()
+        return jsonify(r.data[0]), 201
+    except Exception:
+        app.logger.exception("No se pudo guardar el comentario")
+        return jsonify(error="No se pudo publicar el comentario"), 400
+
+
+@app.post("/api/comentarios/<int:cid>/ocultar")
+@login_required
+def ocultar_comentario(cid):
+    """Moderación: el administrador oculta o vuelve a mostrar un comentario."""
+    if session.get("rol") != "admin":
+        return jsonify(error="Solo el administrador puede moderar"), 403
+    oculto = bool((request.json or {}).get("oculto", True))
+    r = sb().table("comentarios").update({"oculto": oculto}).eq("id", cid).execute()
+    return jsonify(ok=True) if r.data else (jsonify(error="Comentario no encontrado"), 404)
+
+
+@app.delete("/api/comentarios/<int:cid>")
+@login_required
+def borrar_comentario(cid):
+    """Lo puede borrar su autor o el administrador (la base de datos lo exige con RLS)."""
+    r = sb().table("comentarios").delete().eq("id", cid).execute()
+    return jsonify(ok=True) if r.data else (jsonify(error="No puedes borrar este comentario"), 403)
+
+
 @app.get("/estadisticas")
 def pagina_estadisticas():
     return render_template("estadisticas.html", cfg=config_front(), activo="estadisticas")
@@ -535,6 +625,16 @@ def api_notificaciones():
     for x in confs:
         items.append({"tipo": "comunitaria", "titulo": "Confirmación comunitaria",
                       "texto": f"El reporte #{x['reporte_id']} ha recibido una nueva confirmación.",
+                      "fecha": x["created_at"], "reporte": x["reporte_id"]})
+
+                          try:
+        coms = (c.table("comentarios").select("reporte_id,created_at")
+                .order("created_at", desc=True).limit(15).execute().data)
+    except Exception:
+        coms = []
+    for x in coms:
+        items.append({"tipo": "comentario", "titulo": "Nuevo comentario",
+                      "texto": f"Un usuario ha comentado en el reporte #{x['reporte_id']}.",
                       "fecha": x["created_at"], "reporte": x["reporte_id"]})
 
     items.sort(key=lambda i: i["fecha"] or "", reverse=True)

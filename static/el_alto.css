@@ -406,3 +406,29 @@ body.shell{background:linear-gradient(180deg,#f6f9fc 0%,#e9eff6 100%)}
 .p-rol{color:#0e7490}
 .dato .v{color:#334155}
 .titulo-barra h1{letter-spacing:-.01em}
+
+
+/* Comentarios de la comunidad */
+.n-ico.comentario{background:#7b3fe4}
+.n-coms{color:var(--mu);font-weight:400;font-size:14px}
+.coms{background:#fff;border:1px solid var(--bd);border-radius:14px;padding:18px}
+.f-com textarea{width:100%;min-height:80px;border:1px solid var(--bd);border-radius:10px;padding:10px 12px;font:inherit;font-size:14px;resize:vertical}
+.f-com textarea:focus{outline:2px solid #17794a55;border-color:var(--on)}
+.f-com-pie{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:8px;flex-wrap:wrap}
+.f-com-pie .btn-v{height:40px}
+.resp-a{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#e8f5ef;border-radius:8px;padding:8px 12px;margin-bottom:8px;font-size:14px}
+.resp-a button{border:0;background:none;color:var(--on);font:inherit;cursor:pointer;font-weight:500}
+#lista-com{margin-top:14px}
+.com{padding:12px 0;border-bottom:1px solid #edf2f0}
+.com:last-child{border-bottom:0}
+.com.resp{margin-left:34px;padding-left:14px;border-left:3px solid #cfe3d8}
+.com.oculto{opacity:.55}
+.com-cab{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.com-cab b{color:var(--tx)}
+.com-cab small{color:var(--mu)}
+.tag-adm{background:var(--on);color:#fff;font-size:11px;font-weight:500;padding:2px 8px;border-radius:99px}
+.com-cab .tag-ocu{color:#b3261e}
+.com p{margin:6px 0;line-height:1.5;font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere}
+.com-acc{display:flex;gap:14px}
+.com-acc button{border:0;background:none;padding:0;color:var(--on);font:inherit;font-size:13px;font-weight:500;cursor:pointer}
+.com-acc button:hover{text-decoration:underline}
