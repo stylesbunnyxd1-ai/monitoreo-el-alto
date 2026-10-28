@@ -624,10 +624,10 @@ def api_notificaciones():
         confs = []
     for x in confs:
         items.append({"tipo": "comunitaria", "titulo": "Confirmación comunitaria",
-                      "texto": f"El reporte #{x['reporte_id']} ha recibido una nueva confirmación.",
-                      "fecha": x["created_at"], "reporte": x["reporte_id"]})
+        "texto": f"El reporte #{x['reporte_id']} ha recibido una nueva confirmación.",
+        "fecha": x["created_at"], "reporte": x["reporte_id"]})
 
-                          try:
+    try:
         coms = (c.table("comentarios").select("reporte_id,created_at")
                 .order("created_at", desc=True).limit(15).execute().data)
     except Exception:
